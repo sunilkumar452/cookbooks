@@ -1,0 +1,64 @@
+Steps to Install Chef Server in centos7:
+
+wget https://packages.chef.io/stable/el/7/chef-server-core-12.6.0-1.el7.x86_64.rpm
+rpm -ivh chef-server-core-12.6.0-1.el7.x86_64.rpm
+chef-server-ctl reconfigure
+chef-server-ctl status
+chef-server-ctl install chef-manage
+opscode-manage-ctl reconfigure
+chef-server-ctl reconfigure
+mkdir /home/empadmin/.chef
+chef-server-ctl user-create chefadmin krushna sahu mailkrushna@gmail.com 'chef123' --filename /home/empadmin/.chef/chefadmin.pem
+chef-server-ctl org-create ability abilitynetwork --association_user chefadmin --filename /home/empadmin/.chef/abilityvalidator.pem
+#note :- copy chefadmin.pem & abilityvalidator.pem to workstation machine to /home/empadmin/.chef/
+
+
+Steps to Install Workstation:
+
+wget https://packages.chef.io/stable/el/7/chefdk-0.14.25-1.el7.x86_64.rpm
+vi /etc/resolv.conf
+wget https://packages.chef.io/stable/el/7/chefdk-0.14.25-1.el7.x86_64.rpm
+rpm -ivh chefdk-0.14.25-1.el7.x86_64.rpm
+mkdir /opt/chef-repo
+cd /opt/chef-repo/
+vi hello.rb
+chef-solo hello.rb
+chef-apply hello.rb
+mkdir cookbooks
+cd cookbooks/
+chef generate cookbook httpd_deploy
+cd /home/empadmin/
+ls
+mkdir .chef
+knife configure --initial
+
+
+
+
+
+Knife.rb configuration file:
+
+
+Workstation knife.rb :-
+
+log_level                :info
+log_location             STDOUT
+node_name                'chefadmin'
+client_key               '/home/empadmin/.chef/chefadmin.pem'
+validation_client_name   'abilityvalidator'
+validation_key           '/home/empadmin/.chef/abilityvalidator.pem'
+chef_server_url          'https://chefserver.test.com:443/organizations/ability'
+syntax_check_cache_path  '/home/empadmin/.chef/syntax_check_cache'
+cookbook_path [ '/opt/chef-repo/cookbooks' ]
+
+
+BOOTSTRAP COMMAND:
+
+
+knife bootstrap node_domain_or_IP -x username -P password -N name_for_node --sudo
+
+
+sudo /opt/chefdk/embedded/bin/gem install knife-windows
+
+
+knife bootstrap windows winrm 10.164.1.100 -x administrator -P Totally#1 --node-name winserver1.test.local -V
