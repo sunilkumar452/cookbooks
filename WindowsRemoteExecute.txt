@@ -1,0 +1,14 @@
+1) Need to Install PsExec in windows machine.(Local). Download the zip file and extract it.Then copy and paste all the files inside the folder to    C:\windows folder.
+2) Create a sample.txt file with the IP Address of the machines(one Ip per one row).
+3) Create a hello.bat file with commands need to execute the remote machine.
+4) Then execute the below commands to copy and execute the batch file in multiple remote machines.
+
+
+PsExec.exe -d -c @sample.txt -u administrator -p Totally#1 c:\wsus-WinAU.reg   --> Copy wsus-WinAU.reg file to C:\windows by default.
+
+PsExec.exe -d -c @sample.txt -u administrator -p Totally#1 c:\wsus-WinUpdate.reg --> Copy wsus-WinUpdate.reg file to C:\windows by default.
+
+PsExec.exe -d -c @sample.txt -u administrator -p Totally#1 c:\hello.bat         --> Copy hello.bat file to C:\Windows by default.
+
+psexec -i -s -d @sample.txt -u administrator -p Totally#1 "C:\windows\hello.bat" --> Excute the batch file in the remote machines.
+
