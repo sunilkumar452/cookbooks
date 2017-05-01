@@ -20,13 +20,15 @@ Creating a Private Repo for storing our files in  Centos7:
 
 9) cd /var/www/html/    --> Go to this directory path.
 
-10) sudo systemctl status httpd     --> Run this command.
+10) sudo createrepo sunilrepo --> run this command to create a repo.
 
-11) sudo systemctl start httpd.service    --> Start the service of Apache Server.
+11) sudo systemctl status httpd     --> Run this command.
 
-12) sudo netstat -ltnp | grep ':80'      --> Check the Service is running on port 80.
+12) sudo systemctl start httpd.service    --> Start the service of Apache Server.
 
-13) http://35.154.229.35/sunilrepo/      --> Open the browser paste the link, you will find the repo with your copied file.
+13) sudo netstat -ltnp | grep ':80'      --> Check the Service is running on port 80.
+
+14) http://35.154.229.35/sunilrepo/      --> Open the browser paste the link, you will find the repo with your copied file.
 
 
 Note: No restart required after copying the new files.Just refresh the browser u will see the updated files in your repo. 
