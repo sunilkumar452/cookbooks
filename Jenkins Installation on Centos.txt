@@ -1,0 +1,51 @@
+Step 1:
+sudo yum install wget -y
+
+Step 2:
+sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+
+Step 3:
+sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+Step 4:
+sudo yum install jenkins
+
+Step 5:
+sudo yum install java
+
+Step 6:
+sudo service jenkins start 
+
+Step 7:
+sudo chkconfig jenkins on
+
+Step 8:
+Go to AWS RHEL Instance and find the security wizard used --> Go to Security Groups -->select the security wizard -->Actions --> Edit inbound Rules -->Type --> ALL TCP --> Save
+
+Step 9:
+Find the public IP Address of your instance
+
+Step 10: 
+Enter public ip followed by Port 8080. Ex: http://35.160.91.135:8080
+
+Step 11:
+Initial jenkins screen shows admin password location --> Copy that location
+
+Step 12: 
+sudo cat "/Admin/Password/Location". Ex: sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Step 13:
+Install suggested plugins and create user profile
+
+
+
+SCRIPT
+-------------------
+
+Follow the instructions below to install jenkins on RHEL/CentOs 
+
+Hint: To run multiple commands in a sequence one after the other, seperate commands with semicolon ";".
+
+sudo yum install wget -y;sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo;sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key;sudo yum install jenkins;sudo yum install java;sudo service jenkins start;sudo chkconfig jenkins on
+
+
