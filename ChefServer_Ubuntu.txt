@@ -1,0 +1,78 @@
+http://www.bogotobogo.com/DevOps/Chef/Chef_Server_install_on_EC2_ubuntu_14_04.php
+
+Install Chef Server
+--------------------
+
+1. sudo apt-get update
+
+2. sudo apt-get upgrade
+
+3. wget https://packages.chef.io/stable/ubuntu/16.04/chef-server-core_12.10.0-1_amd64.deb
+
+4. sudo dpkg -i chef-server-core_12.10.0-1_amd64.deb
+
+
+5. sudo chef-server-ctl reconfigure
+
+	 ""Success!!Chef Server Reconfigured!""
+
+6. sudo chef-server-ctl status
+
+	run: bookshelf: (pid 4486) 39s; run: log: (pid 4526) 39s
+	run: nginx: (pid 4269) 44s; run: log: (pid 4679) 35s
+	run: oc_bifrost: (pid 4199) 46s; run: log: (pid 4246) 45s
+	run: oc_id: (pid 4253) 45s; run: log: (pid 4258) 44s
+	run: opscode-erchef: (pid 4591) 36s; run: log: (pid 4580) 38s
+	run: opscode-expander: (pid 4367) 41s; run: log: (pid 4469) 40s
+	run: opscode-expander-reindexer: (pid 4435) 40s; run: log: (pid 4475) 40s
+	run: opscode-solr4: (pid 4308) 42s; run: log: (pid 4344) 42s
+	run: postgresql: (pid 4151) 46s; run: log: (pid 4174) 46s
+	run: rabbitmq: (pid 1685) 136s; run: log: (pid 4138) 47s
+	run: redis_lb: (pid 4086) 64s; run: log: (pid 4673) 35s
+
+7. sudo chef-server-ctl test
+
+
+Create a default user and organization
+---------------------------------------
+
+1. mkdir .chef
+
+2. sudo chef-server-ctl user-create USERNAME FNAME LNAME EMAIL PASSWORD -f ~/.chef/USERNAME.pem
+
+	Username: akash
+	First Name: akash
+	Last Name: reddy
+	Email: areddy8567@gmail.com
+	Password: password
+	Filename: akash.pem
+
+Ex: sudo chef-server-ctl user-create akash akash reddy areddy8567@gmail.com password -f ~/.chef/akash.pem
+
+
+
+3. sudo chef-server-ctl org-create ORG_SHORT_NAME "ORG_LONG_NAME" --association_user ASSOCIATED_USER -f ~/.chef/ORG_SHORT_NAME.pem
+	
+	Short Name: akashreddy
+	Long Name: akashreddy.com
+	Association User: akash
+	Filename: akashreddy.pem
+
+Ex: sudo chef-server-ctl org-create akashreddy "akashreddy.com" --association_user akash -f ~/.chef/akashreddy.pem
+
+
+4. cd .chef
+5. ls 
+	Dislays akash.pem; akashreddy.pem
+
+
+Install Gui
+--------------
+
+1. sudo chef-server-ctl install opscode-manage
+
+2. sudo opscode-manage-ctl reconfigure
+
+3. sudo chef-server-ctl reconfigure
+
+accept lisence to access gui

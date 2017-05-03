@@ -1,0 +1,119 @@
+1) Yum update
+
+2) yum install docker
+
+3) service docker start
+
+4) docker --version
+
+5) docker ps
+
+6) Create a directory and inside that create a file with name Dockerfile(Capital 'D' is must).
+
+7) docker build -t sunil/ubuntu:snapshot .          --> Building a docker file with snapshot as tag for this container and name sunil/ubuntu.
+
+8) docker run -it 4116c6f8eb0b bash    --> This command is used to login into the container.
+
+9) docker run -i -t b1563ff1eb81 htop   --> This will run the command htop inside the container and displays the output.(bash shell will not open)
+
+10) When we use CMD or EntryPoint in dockerfile then dont use "/bin/bash" while running the container, otherwise it will override.
+
+11) docker search rlops    --> To list all the images present in the particular repository.
+
+12) docker inspect 9e0e5c0e38f2    --> To list everything about the container.
+
+13) docker run -it -v /root/apps/sunil:/home sunil/ubuntu:htop bash  --> This is to mount the folder with container.
+
+14) docker run -it -v /root/apps/sunil:/home:ro sunil/ubuntu:htop bash   --> This is to give permissions while mounting the volume with container to stop.
+
+15) docker wait cb0e06ecec8d   --> It gives the exist status of the container(0), if the container is running then it will wait for the container 
+16) docker version --format '{{.Server.Version}}'    --> To print only the version of the docker.
+
+17) docker run -dit --name test --kernel-memory 50M ubuntu bash 
+    docker update --kernel-memory 80M test                         --> To update the configuration of one or more containers.
+
+18) docker top 2893cd5f268c   --> Displays the running processes inside the container.
+
+19) docker tag 307ac488a4bc my/tomcat:deploy     --> To tag the container with the name.
+
+20) docker stop/start/restart my_containerID     --> to stop,start and restart the running container. 
+
+21) docker stats 2893cd5f268c      --> It will display the memory and cpu usage of the running conatiner.
+
+22) docker search busybox          --> It will search and list and the images from the docker hub.
+
+23) docker search --filter stars=3 busybox      --> based on the stars of the images we can search.
+
+24) docker save sunil/ubuntu:htop > htop.tar     --> To save the docker images later we can use it with docker load.
+    ls -sh htop.tar
+    docker save --output busybox.tar busybox 
+
+25) docker  run -w /etc -i -t sunil/ubuntu:htop ls    --> To to inside the /etc directory and ls with list the files inside the /etc.
+
+26) docker rm $(docker ps -a | awk '{print $1}')      ---> To delete the exited containers in a row.
+
+27) docker rmi my/tomcat:deploy     --> To delete the docker images.
+
+28) docker run -p 81:8080 -itd ubuntu/htop:v1 bash      --> To forward the port 81 of the local machine with the port 8080 of the container.
+
+29) docker commit Container_ID sunilkumar452/htop       --> To commit the container and you will get container id when you type docker ps.
+
+30) docker push sunilkumar452/htop         --> While pushing the container name should match with your repository name and u need credentails of docker hub.
+
+31) docker pull sunilkumar452/htop:latest     --> To download docker container with the tag name latest, before download you can search for the images with that name using docker search command.
+
+32) docker port mad_ramanujan          ---> To list all the forwarded ports based on the name, you will find name when you type docker ps.
+
+33) docker logs 7f2c00d8bba0 --> Logs will display only when the conatiner ID is given and that should ran in a particular period of time.(If it does't show the logs please run the container again)
+
+34) docker logout    --> It will delete your login details from the /root/.docker/config.json file.(your credentails are deleted permanently).
+
+35) docker login localhost:8080    --> If you have a self hosted docker repository then you give the hostname and port of the server.
+
+36) docker load --input htop.tar     --> To load the docker images which is in tar format.
+
+37) docker kill Container Id --> It will kill the running conatiner, the only difference when compared to docker stop is, it will stop the container and send kill signal to the running process inside the conatiner.
+
+38) docker info   ---> It will display the running container and images count, along with that hostname of the local machine, memory, cpu, OS, kernel Version, docker username and registry info.
+
+39) docker import http://example.com/exampleimage.tgz
+    docker import /path/to/exampleimage.tgz                  --> To Import the docker image which is in tgz format form remotly and locally.
+
+
+40) docker history sunil/ubuntu:htop        --> To list the history of command ran inside the image.
+
+41) docker export red_panda > latest.tar      --> To save the running conatiner in tar format.
+
+42) docker exec -d Conainer ID ls -ltr        --> To run the command inside the running container.
+
+43) docker diff Conainer Id      --> It will display the changes done inside the container, A - file of directory added, D - deleted and C - a file of directory changed.
+
+44) 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
