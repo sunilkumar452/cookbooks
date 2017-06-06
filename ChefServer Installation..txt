@@ -1,15 +1,29 @@
 Steps to Install Chef Server in centos7:
 
 wget https://packages.chef.io/stable/el/7/chef-server-core-12.6.0-1.el7.x86_64.rpm
+
 rpm -ivh chef-server-core-12.6.0-1.el7.x86_64.rpm
+
+systemctl stop firewalld
+
 chef-server-ctl reconfigure
+
 chef-server-ctl status
-chef-server-ctl install chef-manage
-opscode-manage-ctl reconfigure
+
+chef-server-ctl install chef-manage  --> If this commnad fails then try below commands.
+--> wget https://packages.chef.io/files/stable/chef-manage/2.4.0/el/7/chef-manage-2.4.0-1.el7.x86_64.rpm
+--> rpm -ivh chef-manage-2.4.0-1.el7.x86_64.rpm
+
+chef-manage-ctl reconfigure
+
 chef-server-ctl reconfigure
+
 mkdir /home/empadmin/.chef
+
 chef-server-ctl user-create chefadmin krushna sahu mailkrushna@gmail.com 'chef123' --filename /home/empadmin/.chef/chefadmin.pem
+
 chef-server-ctl org-create ability abilitynetwork --association_user chefadmin --filename /home/empadmin/.chef/abilityvalidator.pem
+
 #note :- copy chefadmin.pem & abilityvalidator.pem to workstation machine to /home/empadmin/.chef/
 
 

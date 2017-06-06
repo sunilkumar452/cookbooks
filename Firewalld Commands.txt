@@ -1,0 +1,60 @@
+Firewall in Centos7:
+
+1) firewall-cmd --state                     ---> It gives whether your firewall is running or not.
+
+2) systemctl start/stop/status firewalld    ---> We can start and stop the firewall service.
+
+3)  ls /usr/lib/firewalld/services/         ---> Lists the opened ports with .xml file.If we open that files we can we the port on which it is running.
+
+4) systemctl mask firewalld                 ---> If you run this command then you can't able to start the firewalld service untill it is unmasked. ( Usually did for people not to start it bymistak )   
+5) systemctl unmask firewalld               ---> To unmask the firewalld service.
+
+6) firewall-cmd --get-default-zone          ---> To get on which zone we are.This will give mostly public.
+
+7) firewall-cmd --zone=public --list-all    ---> To get which ports and services are running on public zone.
+
+8) firewall-cmd --list-all-zone             ---> It gives all information about all zones.(services and ports of all zones).
+
+9) firewall-cmd --panic-on                  ---> This will command will drop incoming and outgoing packets for all the ports.Dont't try thid even you can't able to login into the machine.
+
+10) firewall-cmd --panic-off                ---> To start again accepting the incoming and outgoing packets through all the ports.
+
+11) firewall-cmd --reload                   ---> To reload the configuration.
+
+12) vi /etc/firewalld/firewalld.conf        ---> Configuration file for changing the default zone.
+
+13) firewall-cmd --set-default-zone=public            ---> This is same as above and can be done with command prompt.
+
+14) firewall-cmd --zone=public --list-ports           ---> To list all the opened ports in public zone.
+
+15) firewall-cmd --zone=public --add-port=5060-5061/udp(tcp)         ---> To allow range of ports.
+
+16) firewall-cmd --zone=public --add-forward-port=port=22:proto=tcp:toport=3753         ---> To forward the port.
+
+17) firewall-cmd --zone=public --list-all                            ---> To list all ports and services related to particular zone.
+
+18) firewall-cmd --zone=dmz --add-port=8080/tcp --permanent          ---> To add a port permanently.
+
+19) firewall-cmd --permanent --zone=trusted --add-source=192.168.2.0/24        --->   The servers added to trusted source have incoming and outgoing connection without any block.
+
+20) firewall-cmd --zone=public --remove-port=8081/tcp --permanent              ---> To remove the port permanently.
+
+Zones:
+
+1) drop:  Any incoming network packets are dropped; there is no reply. Only outgoing network connections are possible.
+
+2) block: Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated from within the system. are possible.
+
+3) public: For use in public areas. You do not trust the other computers on the network to not harm your computer. Only selected incoming connections are accepted.
+
+4) external: For use on external networks with masquerading enabled, especially for routers. You do not trust the other computers on the network to not harm your computer. Only selected incoming connections are accepted.
+
+5) dmz: For computers in your demilitarized zone that are publicly-accessible with limited access to your internal network. Only selected incoming connections are accepted.
+
+6) work: For use in work areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+
+7) home: For use in home areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+
+8) internal: For use on internal networks. You mostly trust the other computers on the networks to not harm your computer. Only selected incoming connections are accepted
+
+9) trusted: All network connections are accepted.

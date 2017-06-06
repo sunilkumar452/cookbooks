@@ -1,0 +1,25 @@
+1) cat /etc/sysconfig/network-scripts/ifcfg-eno16777736    --> Open this file with sudo and change the file according to below.
+
+TYPE=Ethernet
+BOOTPROTO=dhcp
+#DEFROUTE=yes
+#PEERDNS=yes
+#PEERROUTES=yes
+#IPV4_FAILURE_FATAL=no
+#IPV6INIT=yes
+#IPV6_AUTOCONF=yes
+#IPV6_DEFROUTE=yes
+#IPV6_PEERDNS=yes
+#IPV6_PEERROUTES=yes
+#IPV6_FAILURE_FATAL=no
+NAME=eno16777736
+UUID=31fa198a-276d-4329-a265-96126250e339
+DEVICE=eno16777736
+ONBOOT=yes
+
+
+2) /etc/init.d/network restart     --> Restart the network.
+
+3) Put your VM network in NAT     --> Player -> manage -> Virtual machine Settings -> Network Adapter -> NAT
+
+4) ifconfig      --> To check the IP information of the machine.
