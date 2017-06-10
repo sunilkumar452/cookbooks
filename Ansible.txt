@@ -1,0 +1,131 @@
+ Ansible LAB Configuration in Linux 7: 
+--------------------------------------------------------------------------------
+1)  sudo yum install epel-release
+
+2)  yum install ansible
+  
+3)  ansible --version
+ 
+4)  vi /etc/hosts         --> In this file add two machines with thier hostnames. Repeat the same thing in client machines also.
+    1.1.1.1   example1.sample.com    example1    --> Ansible server
+    2.2.2.2   example2.sample.com    example2    --> Ansible managed node(client)
+ 
+5)  vi /etc/ansible/hosts    --> Then add all your machines for grouping. at the bottom add the lines as below.
+    # my machines
+    [my servers]
+    example1.sample.com
+    example2.sample.com
+   
+6)  ansible example2.sample.com -m ping -u root -k    --> It will prompt for a password. Then gives you the result in green color.
+ 
+7)  ssh-keygen   --> Createa key for password less communication between the machines. Repeat 7 and 8 steps in all machines.
+   
+8)  ssh-copy-id -i example2.sample.com       --> For copying key to the client machine.Run this from server.
+    ssh-copy-id -i example1.sample.com       --> Run this command from the client machine.
+  
+9)  ansible example2.sample.com -m ping       --> It should give you the result without a password.
+   
+10) ansible example2.sample.com -m setup      --> Its just like a Ohai attributes in chef. It will all information about the client machine.
+   
+11) ansible example2.sample.com -m file -a 'path=/etc/fstab'     --> To get the information of the fstab file present in the client side.
+   
+12) ansible example2.sample.com -m file -a 'path=/tmp/sunil state=directory'   --> To create a directory. 
+   
+13) ansible example2.sample.com -m file -a 'path=/opt/sunil/test state=present'   --> To check whether the file is there or not.
+  
+14) ansible example2.sample.com -m copy -a 'src=/root/sampl dest=/opt/sunil'      --> To copy file from server to client machine.
+  
+15) ansible example2.sample.com -m file -a 'path=/opt/sunil/sampl state=touch'    --> To create a file.
+   
+16) ansible-doc -l        --> This will list all the modules present in ansible.
+
+17) ansible-doc copy      --> This will give detailed information of the particular module with example. 
+
+Ansible playbook: 1
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+---
+ - hosts: sample2.example.com
+   user: empadmin
+   vars:
+    motd_welcome: 'Welcome to ABILITYNetwork for Ansible Configuration'
+   tasks:
+   - name: sample motd
+     copy:
+      dest: /home/empadmin/sunil
+      content: "{{ motd_welcome }}"
+
+
+Command to execute: ansible-playbook sample1.yml
+
+Ansible Apache Playbook:
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---
+ - hosts: sample2.example.com
+   user: empadmin
+   tasks:
+    - name: installing apache
+      command: sudo yum install httpd -y
+#    - name: copy index.html
+#      copy: src=files/index.html dest=/var/www/html/index.html
+#    - name: start apache
+#      service:
+#       name: httpd
+#       state: restarted
+
+    - name: start the service
+      command: sudo systemctl start httpd
+
+command to execute: ansible-playbook apache.yml
+                    ansible-playbook -v apache.yml --step
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
