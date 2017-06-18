@@ -1,4 +1,5 @@
 Steps to Install Chef Server in centos7:
+----------------------------------------
 
 wget https://packages.chef.io/stable/el/7/chef-server-core-12.6.0-1.el7.x86_64.rpm
 
@@ -26,44 +27,49 @@ chef-server-ctl org-create ability abilitynetwork --association_user chefadmin -
 
 #note :- copy chefadmin.pem & abilityvalidator.pem to workstation machine to /home/empadmin/.chef/
 
+rpm -e manage-chef    --> To remove chef Web UI.
+
 
 Steps to Install Workstation:
+------------------------------------------------------
+
+
+vi /etc/hosts            --> Add chef-server hostname with Ip.
 
 wget https://packages.chef.io/stable/el/7/chefdk-0.14.25-1.el7.x86_64.rpm
-vi /etc/resolv.conf
-wget https://packages.chef.io/stable/el/7/chefdk-0.14.25-1.el7.x86_64.rpm
+
 rpm -ivh chefdk-0.14.25-1.el7.x86_64.rpm
-mkdir /opt/chef-repo
-cd /opt/chef-repo/
-vi hello.rb
-chef-solo hello.rb
-chef-apply hello.rb
-mkdir cookbooks
-cd cookbooks/
-chef generate cookbook httpd_deploy
-cd /home/empadmin/
-ls
-mkdir .chef
-knife configure --initial
 
+mkdir /home/empadmin/.chef 
 
+knife.rb  --Create this file below data
 
+# See https://docs.getchef.com/config_rb_knife.html for more information on knife configuration options
 
-
-Knife.rb configuration file:
-
-
-Workstation knife.rb :-
-
+current_dir = File.dirname(__FILE__)
 log_level                :info
 log_location             STDOUT
-node_name                'chefadmin'
-client_key               '/home/empadmin/.chef/chefadmin.pem'
-validation_client_name   'abilityvalidator'
-validation_key           '/home/empadmin/.chef/abilityvalidator.pem'
-chef_server_url          'https://chefserver.test.com:443/organizations/ability'
-syntax_check_cache_path  '/home/empadmin/.chef/syntax_check_cache'
-cookbook_path [ '/opt/chef-repo/cookbooks' ]
+node_name                "chefadmin"
+#client_key               "#{current_dir}/chefadmin.pem"
+client_key               "/home/empadmin/.chef/chefadmin.pem"
+chef_server_url          "https://example1.sample.com/organizations/ability"
+cookbook_path            ["#{current_dir}/../cookbooks"]
+#cookbook_path            ["/home/empadmin/chef-repo/cookbooks", "/home/empadmin/chef-repo/cookbooks/Eligibility-Switch", "/home/empadmin/chef-repo/cookbooks/ES"]
+
+
+
+trusted_certs         --> Create this directoty.
+
+cd /var/opt/opscode/nginx/ca/     --> Copt cert file from chef-server machine to the above cert directory.
+
+
+mkdir /home/empadmin/chef-repo      --> Create chef repo directory.
+
+knife ssl check
+
+knife create cookbook cookbook_name.
+
+Note: Before bootstraping add chef-server hostname and IP in client machine  /etc/hosts.
 
 
 BOOTSTRAP COMMAND:
