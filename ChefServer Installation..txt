@@ -1,6 +1,9 @@
 Steps to Install Chef Server in centos7:
 ----------------------------------------
 
+Note: please set hostnames in both chef-server and worstation
+----
+
 wget https://packages.chef.io/stable/el/7/chef-server-core-12.6.0-1.el7.x86_64.rpm
 
 rpm -ivh chef-server-core-12.6.0-1.el7.x86_64.rpm
@@ -60,7 +63,7 @@ cookbook_path            ["#{current_dir}/../cookbooks"]
 
 trusted_certs         --> Create this directoty.
 
-cd /var/opt/opscode/nginx/ca/     --> Copt cert file from chef-server machine to the above cert directory.
+cd /var/opt/opscode/nginx/ca/     --> Copt cert file from chef-server machine to the above trusted_certs directory.
 
 
 mkdir /home/empadmin/chef-repo      --> Create chef repo directory.
@@ -82,3 +85,53 @@ sudo /opt/chefdk/embedded/bin/gem install knife-windows
 
 
 knife bootstrap windows winrm 10.164.1.100 -x administrator -P Totally#1 --node-name winserver1.test.local -V
+
+
+
+
+Install Push-Jobs:
+-------------------
+
+On Chef-Server:
+
+1) chef-server-ctl install opscode-push-jobs-server 
+
+2) chef-server-ctl reconfigure
+
+3) opscode-push-jobs-server-ctl reconfigure
+
+On Workstation:
+
+1) chef gem install knife-push
+
+2) Upload push-jobs cookbook to chef-server
+
+3) Login to Node and run chef-client -o push-jobs
+
+4) knife job start 'pushjobsrestart' <any servername which is given during the bootstrap> 
+
+5) knife node status    --> To see push-jobs client running on the machine or not.
+
+6) knife job start --capture 'chef-client' <Bootstrapped Name>
+
+Note: If you install push-job client manually in the node it will not work. So use push-jobs cookbook to download and install push-jobs client.
+
+
+Install Chef Reporting:
+-----------------------
+1) chef-server-ctl install opscode-reporting
+
+2) chef-server-ctl reconfigure
+
+3) opscode-reporting-ctl reconfigure
+
+4) opscode-reporting-ctl test
+
+Note: When we use push-jobs we don't get chef-client log but for troubleshooting logs are very much important so when we use -capture in push-jobs command it will save the logs.
+
+5) knife job output (options) JOB_ID [NODE_NAME]  --> Job it will be displayed after execution of push-job command.
+
+
+
+
+
