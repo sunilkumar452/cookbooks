@@ -1,0 +1,33 @@
+1.Take Two Ubutu 14.04LTS machines.(We need min two machines for Glusterfs)
+2.Set the hostnames of the two machines 
+-> vi /etc/hosts
+3.Should be like this server1
+-> gluster1.server.com  server2
+-> gluster2.client.com
+4.we should be able to ping each other.
+5.we need to install the python-software-properties package on both machines 
+-> sudo apt-get install python-software-properties
+6.Update the machines 
+-> sudo apt-get update
+7.Install Glusterfs server on both machines 
+-> sudo apt-get install glusterfs-server
+8.On first machine we need to peer with the second host 
+-> sudo gluster peer probe gluster2.client.com
+9.See the status of Gluster peer on both machines 
+-> sudo gluster peer status
+10.Make a directory in both machines 
+-> mkdir /gluster-storage
+11.Since we want one copy of data on each of our servers, we will set the replica option to "2", which is the number of servers we have. The general syntax we will be using to create the volume is this.
+-> gluster volume create volume1 replica 2 transport tcp gluster1.server.com:/gluster-storage gluster2.client.com:/gluster-storage force
+12.Start the Volume in first machine 
+-> gluster volume start volume1
+13.In Second machine install client package 
+-> apt-get install glusterfs-client
+14.Create a directory in second machine 
+-> mkdir /storage-pool
+15.Mount the directory with volume 
+-> mount -t glusterfs gluster1.server.com:volume1 /storage-pool
+16.Create some files in storage-pool directory and see the files present or not in first machine 
+->ls /gluster-storage
+17.If the files are present this your Glusterfs configuration successfully done.
+Note: The data present in the client machine is visible in server machine but not vise-verca.
