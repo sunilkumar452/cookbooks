@@ -1,0 +1,137 @@
+Definition: Kubernetes is a platform which manages the containers. It gives you feasibility to work with deployments, scaling the containers and monitoring the containers. It has a autohealing capability that any running container goes down it tries to launch another conatiner.
+
+1) vi /etc/yum.repos.d/virt7-docker-common-release.repo
+  
+  [virt7-docker-common-release]
+  name=virt7-docker-common-release
+  baseurl=http://cbs.centos.org/repos/virt7-docker-common-release/x86_64/os/
+  gpgcheck=0
+
+2) yum -y install --enablerepo=virt7-docker-common-release kubernetes etcd flannel
+
+3) vi /etc/hosts   --> add all the Ip's with hostname (Server and Clients)
+
+4) vi /etc/kubernetes/config
+
+# logging to stderr means we get it in the systemd journal
+KUBE_LOGTOSTDERR="--logtostderr=true"
+
+# journal message level, 0 is debug
+KUBE_LOG_LEVEL="--v=0"
+
+# Should this cluster be allowed to run privileged docker containers
+KUBE_ALLOW_PRIV="--allow-privileged=false"
+
+# How the replication controller and scheduler find the kube-apiserver
+KUBE_MASTER="--master=http://centos-master:8080"
+
+5) stop the firewall in all the Clients and Server
+
+6) vi /etc/etcd/etcd.conf
+
+# [member]
+ETCD_NAME=default
+ETCD_DATA_DIR="/var/lib/etcd/default.etcd"
+ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:2379"
+
+#[cluster]
+ETCD_ADVERTISE_CLIENT_URLS="http://0.0.0.0:2379"
+
+7) vi /etc/kubernetes/apiserver
+
+# The address on the local server to listen to.
+KUBE_API_ADDRESS="--address=0.0.0.0"
+
+# The port on the local server to listen on.
+KUBE_API_PORT="--port=8080"
+
+# Port kubelets listen on
+KUBELET_PORT="--kubelet-port=10250"
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS="--etcd-servers=http://centos-master:2379"
+
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.254.0.0/16"
+
+# Add your own!
+KUBE_API_ARGS=""
+
+8) Start ETCD and configure it to hold the network overlay configuration on master: Warning This network must be unused in your network infrastructure! 172.30.0.0/16 is free in our network.
+
+9) systemctl start etcd
+   etcdctl mkdir /kube-centos/network
+   etcdctl mk /kube-centos/network/config "{ \"Network\": \"172.30.0.0/16\", \"SubnetLen\": 24, \"Backend\": { \"Type\": \"vxlan\" } }"
+
+10) vi /etc/sysconfig/flanneld           --> on the master (also in the nodes as we’ll see)
+
+# Flanneld configuration options
+
+# etcd url location.  Point this to the server where etcd runs
+FLANNEL_ETCD_ENDPOINTS="http://centos-master:2379"
+
+# etcd config key.  This is the configuration key that flannel queries
+# For address range assignment
+FLANNEL_ETCD_PREFIX="/kube-centos/network"
+
+# Any additional options that you want to pass
+#FLANNEL_OPTIONS=""
+
+11) for SERVICES in etcd kube-apiserver kube-controller-manager kube-scheduler flanneld; do            --> Start the appropriate services on master
+    systemctl restart $SERVICES
+    systemctl enable $SERVICES
+    systemctl status $SERVICES
+done
+
+
+Configure the Kubernetes services on the nodes:
+--------------------------------------------------
+
+12) vi /etc/kubernetes/kubelet
+
+# The address for the info server to serve on
+KUBELET_ADDRESS="--address=0.0.0.0"
+
+# The port for the info server to serve on
+KUBELET_PORT="--port=10250"
+
+# You may leave this blank to use the actual hostname
+# Check the node number!
+KUBELET_HOSTNAME="--hostname-override=centos-minion-n"
+
+# Location of the api-server
+KUBELET_API_SERVER="--api-servers=http://centos-master:8080"
+
+# Add your own!
+KUBELET_ARGS=""
+
+
+13) vi /etc/sysconfig/flanneld 
+
+# Flanneld configuration options
+
+# etcd url location.  Point this to the server where etcd runs
+FLANNEL_ETCD_ENDPOINTS="http://centos-master:2379"
+
+# etcd config key.  This is the configuration key that flannel queries
+# For address range assignment
+FLANNEL_ETCD_PREFIX="/kube-centos/network"
+
+# Any additional options that you want to pass
+#FLANNEL_OPTIONS=""
+
+14) for SERVICES in kube-proxy kubelet flanneld docker; do              --> Start the appropriate services on node
+    systemctl restart $SERVICES
+    systemctl enable $SERVICES
+    systemctl status $SERVICES
+done
+
+14) kubectl config set-cluster default-cluster --server=http://centos-master:8080        --> Replace the Server IP and repeat the  below three steps in all clients
+
+15) kubectl config set-context default-context --cluster=default-cluster --user=default-admin
+
+16) kubectl config use-context default-context
+
+17) kubectl get nodes
+
+18) 

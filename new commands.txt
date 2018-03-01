@@ -1,0 +1,103 @@
+1. sudo !! command
+
+2. python -m SimpleHTTPServer   --> It will sync data in the present folder and we can download those files by accessing IP:8000 in browser.
+
+3. mtr google.com
+
+4. last      -->  To see the login and logout users list.
+
+5. curl ifconfig.me    --> To Display your external IP Address.
+
+6. cd -      --> It is a alias command for cd .. and pwd (Combination of both these commands gives by cd -) If you use continuosly it go one directory back and front.
+
+7. pushd and popd     --> are the shell builtin commands which help to go to the particular folder do something there and come back to the original path.
+
+8. dirs    --> It is aliasing command for pwd
+
+9. mount | column -t     --> It will display in column wise.
+
+10. screen           --> It will open another duplicate terminal, need to comeout type exit.
+
+11. tac filename     --> It will print the output in reverse order.It is exact opposite command for cat.
+
+12. watch ls -l      --> It will be listing files continuosly showing with time.This is can used more in cronjobs.
+
+13. ss -ta           --> It will display all the tcp ports.
+
+14. curl ipinfo.io     --> Gives complete geoagraphical information about the Ip Adrress.
+
+15. yum search packagename     --> searching the installed application.
+
+16. yum update packagename     --> updating the installed package.
+
+17. yum check-update            --> Checking for the available updates.
+
+18. yum localinstall  .rpm       --> To install direct rpm file.
+
+19. yum makecache                -->              
+
+20. yum cleanall                 -->
+
+21) vi /etc/logrotate.d/yum      --> To confiure logrotate of yum.
+
+22) cat /var/log/yum.log         --> History of yum
+
+23) yum history                  --> Detailed information.
+
+24) yum history info 5(id)       --> Detailed information of the particular package
+
+25) yum history undo 6(id)       --> Undo the yum changes along with the dependencies.
+
+26) grep -v -f 1.txt 2.txt       --> to see files which or not present in txt1 and not present in txt2
+
+26) pidof sshd                   --> You can get the pid of the particular service.
+
+27) vi /etc/systemd/system/multi-user.target.wants/sshd.service   --> To auto restart a service open related file of the service and add below two lines in [service] adt bottom.
+    Restart=on-failure
+    RestartSec=42s
+
+28) ll | egrep '^d'      --> To list only directories 
+29) ll | egrep -v '^d'   --> To list only files.
+30) vi .bashrc           --> To make permanent changes add above two lines in bashrc file.
+
+31) export LC_ALL=C      --> This command will change your native language to english.
+    unset LC_ALL
+
+32)  yum --showduplicate list wget    --> To list multiple or duplicate versions.
+
+33) yum --enablerepo=epel install phpmyadmin   --> To install particular package from specific repo.
+
+34) yum deplist emperor-release       --> It will list which rpm packages are dependent on this package.
+
+35) yum --disable-repo updates distro-sync xorg-x11-server-Xorg   --> It will get back your package to the older version because your updated package will be in update repo here we are disabing the     that this  repo so the available version will be changed to last version. 
+
+36) yum reinstall httpd       --> It will remove and install the existing httpd package.
+
+37) yum shell    --> It will open a shell promnpt related to yum. Now you can run multiple commands of yum.
+
+38) yum distribution-synchronization   --> Synchronize installed packages to the latest available versions.
+
+39) yum repo-pkgs < Repo ID > list     --> It will list all the available packages in that repository.
+
+40) hostnamectl    --> To know about the complete information of the machine in linux7
+
+41) nmtui          --> Graphical interface to set hostname.
+
+42) systemctl restart systemd-hostnamed    --> To restart the hostname service after changing.
+
+43) hostnamectl set-hostname my_name       --> To set hostname using command line.
+
+44) awk '!a[$0]++' filename            --> To delete duplicate lines in  a file.
+
+45) vgdisplay
+    lvdisplay
+    pvscan 
+    sudo lvextend /dev/emperor/opt /dev/sda2
+    sudo resize2fs /dev/emperor/opt
+
+46) sudo curl -Is https://www.google.com      --> To check the status of the url, 200 OK is the response for reaching the url.
+
+47) script /tmp/record.txt   --> This command will start record ur session in file format with output. txt is sample format you can give anything. Ctrl+d or exit  to                                  stop the recording.
+ 
+48) script -t -a 2> /tmp/time.txt /tmp/record.txt       --> To record the session in video format. Here -t for time stamp and -a for appending time stamp
+49) scriptreplay /tmp/time.txt /tmp/record.txt          --> to replay the recorded session. Ctrl +d or Exit is the command to stop the video. 
