@@ -1,0 +1,90 @@
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+sudo yum install redis -y
+vi /etc/redis.conf
+original:   protected-mode yes    change: protected-mode no
+sudo systemctl enable redis
+sudo systemctl start redis
+
+echo '[sensu]
+name=sensu
+baseurl=https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/
+gpgcheck=0
+enabled=1' | sudo tee /etc/yum.repos.d/sensu.repo
+
+sudo yum install sensu -y
+
+echo '{
+  "transport": {
+    "name": "redis"
+  },
+  "api": {
+    "host": "machineIP",
+    "port": 4567
+  }
+}' | sudo tee /etc/sensu/config.json
+
+
+
+echo '{
+  "client": {
+    "environment": "development",
+    "subscriptions": [
+      "dev"
+    ]
+  }
+}' |sudo tee /etc/sensu/conf.d/client.json
+
+
+systemctl start sensu-server sensu-client sensu-api
+
+ rpm -Uvh https://sensu.global.ssl.fastly.net/yum/7/x86_64/uchiwa-0.26.3-1.el7.x86_64.rpm
+
+ chkconfig uchiwa on
+
+ systemctl start uchiwa
+
+ vi /etc/sensu/uchiwa.json
+ ===========================================================================
+ {
+  "sensu": [
+    {
+      "name": "Sunil",
+      "host": "machineIP",
+      "port": 4567,
+      "timeout": 10
+    }
+  ],
+  "uchiwa": {
+    "host": "0.0.0.0",
+    "port": 3000,
+    "refresh": 10
+  }
+}
+=================================================================================
+systemctl restart sensu-server sensu-client sensu-api uchiwa
+
+curl -I http://privateip:3000
+
+
+
+Note: If you are not able to install plugins run below command to install Development tools
+yum install gcc gcc-c++ ruby-devel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
