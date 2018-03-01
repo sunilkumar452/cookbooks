@@ -1,0 +1,43 @@
+Installing Git on windows:
+--------------------------
+1) https://git-scm.com/       --> Go to this site and click on Downloads for Windows and install it with (Run Git and Include Unix tools) option.
+
+2) git status      --> To check the file present in local and Git repo are same.
+
+3) git add .       --> To add the files which are ready to push, we can give dot for entire directory to push.
+
+4) git commit -m "comment"   --> Used to commit the changesor files.
+
+5) git push           --> Used to push the files to repo.
+
+6) git rm --cached file1.txt
+   git commit -m "remove file1.txt"   --> Used to delete the file from repo.
+
+7) git checkout -b master      --> Used to switch the Branch.
+
+8) git log   --> Used to see the history of recent commits.
+
+9) git clone https://github.com/your-username/your-forked-package.git       -->Used to clone a Git repo.
+
+10) git init       --> Used to create a inital init file of a repo.
+
+11) git branch -l   --> Used to see list of branches available and on which branch you are.
+
+12) git fetch --all
+    git reset --hard origin/master   --> Used Force pull and reset all files to match origin.
+
+13) git branch feature    --> Used to create a new Branch.
+
+14) git checkout feature   --> Used to Switch the branch.
+
+15) git branch -d feature    --> Used to delete a branch.
+
+16) git branch copyOfMyBranch MyBranch     --> used to copy all the contents from current branch to another branch.
+
+17) git log --oneline  --> To see all the history with unique ID.
+
+18) git reset --hard a1e8fb5   --> Used to reset the commited Change.
+
+19) git revert a867b4af..0766c053   --> Used to specify the range of commits.
+
+20) 
