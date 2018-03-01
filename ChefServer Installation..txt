@@ -24,7 +24,7 @@ chef-server-ctl reconfigure
 
 mkdir /home/empadmin/.chef
 
-chef-server-ctl user-create chefadmin krushna sahu mailkrushna@gmail.com 'chef123' --filename /home/empadmin/.chef/chefadmin.pem
+chef-server-ctl user-create chefadmin sunil kumar mailsunilkumar452@gmail.com 'chef123' --filename /home/empadmin/.chef/chefadmin.pem
 
 chef-server-ctl org-create ability abilitynetwork --association_user chefadmin --filename /home/empadmin/.chef/abilityvalidator.pem
 
@@ -90,7 +90,7 @@ knife bootstrap windows winrm 10.164.1.100 -x administrator -P Totally#1 --node-
 
 
 Install Push-Jobs:
--------------------
+------------------
 
 On Chef-Server:
 
@@ -113,6 +113,8 @@ On Workstation:
 5) knife node status    --> To see push-jobs client running on the machine or not.
 
 6) knife job start --capture 'chef-client' <Bootstrapped Name>
+
+7) knife job output job_id node_name
 
 Note: If you install push-job client manually in the node it will not work. So use push-jobs cookbook to download and install push-jobs client.
 
