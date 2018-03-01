@@ -6,7 +6,7 @@
   
 3)  ansible --version
  
-4)  vi /etc/hosts         --> In this file add two machines with thier hostnames. Repeat the same thing in client machines also.
+4)  vi /etc/hosts         --> In this file add two machines(clients) with thier hostnames. Repeat the same thing in client machines also.
     1.1.1.1   example1.sample.com    example1    --> Ansible server
     2.2.2.2   example2.sample.com    example2    --> Ansible managed node(client)
  
@@ -18,7 +18,7 @@
    
 6)  ansible example2.sample.com -m ping -u root -k    --> It will prompt for a password. Then gives you the result in green color.
  
-7)  ssh-keygen   --> Createa key for password less communication between the machines. Repeat 7 and 8 steps in all machines.
+7)  ssh-keygen   --> Create a key for password less communication between the machines. Repeat 7 and 8 steps in all machines.
    
 8)  ssh-copy-id -i example2.sample.com       --> For copying key to the client machine.Run this from server.
     ssh-copy-id -i example1.sample.com       --> Run this command from the client machine.
