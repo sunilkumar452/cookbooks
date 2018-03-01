@@ -1,0 +1,39 @@
+docker ps
+docker ps -a -q
+docker ps -a -q | wc -l
+docker exec containername /bin/echo "/etc/profile"
+docker exec  -i -t containername /bin/echo "/etc/profile"
+docker rm containername(or)containerid
+docker rm -f containername
+docker exec loving_leaveitt /bin/cat /etc/profile
+docker rm `docker ps -a -q`
+systemctl stop docker 
+cd /var/lib/docker
+we can delete the container in the /var/lib/docker/containers also
+ docker run -itd -p 8080:80 nginx:latest
+ docker run -itd -P nginx:latest
+ docker run -itd -P localhost:8081:80 nginx:latest
+docker run -itd --name mycontainer ubuntu:xenial
+docker rename oldname newname
+docker rename containerid newname
+docker events --since '1h'
+docker events --filter event=attach
+ docker rmi hello-world:latest
+docker rmi  -f ubuntu:xenial
+docker rmi  -f containerid(it has the reference of another container).
+docker save centos:latest > centos.latest.tar
+ docker save --output centos.latest.tar centos:latest
+ docker load --input centos.latest.tar
+docker history centos:latest
+ docker history --no-trunc nginx
+docker history --quiet --no-trunc nginx
+docker tag 8d644ade98af mine/centos:v1.0
+docker login
+ docker login --username=sujith555(docker push terry123456/centos)
+docker logout
+ docker commit 47f4b9a8a9ce centos:baseweb
+docker rm 91e69c6208ca
+ docker run --name=externalweb -p8081:80 -i -t -v /root/docker/dockerwww:/var/www/html centos:baseweb /bin/bash
+ docker commit  webtest centos:baseweb
+ ssh sujith@172.17.0.2
+ docker run --name=webtest -v /root/docker/dockerwww:/var/www/html -i -t centos:baseweb /bin/bash
