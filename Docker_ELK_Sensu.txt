@@ -1,0 +1,25 @@
+JAVA_OPTS="$JAVA_OPTS -Xmx1024m -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+
+sudo graphite-manage syncdb --noinput
+
+Installing Docker:
+
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9 
+sudo sh -c "echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+sudo apt-get update 
+sudo apt-get install lxc-docker
+
+
+Installing ELK:
+
+docker run --name logstash  -t rlops/logstash-1:v2
+docker run --name elastic --link logstash:logstash -p 9200:9200 -t rlops/elasticsearch
+docker run --name kibana --link elastic:elastic -p 5601:5601 -t rlops/kibana:v2
+
+Installing Sensu:
+
+docker run -d --name rabbitmq linuxmanju/rabbitmq
+docker run -d --name redis redis
+docker run -d --link redis:redis --link rabbitmq:rabbitmq --name sensu-api linuxmanju/sensu-api
+docker run -d --link redis:redis --link rabbitmq:rabbitmq --link sensu-api:sensu-api --name sensu-server linuxmanju/sensu-server
+docker run -p 3000:3000 --link sensu-api:sensu-api --name uchiwa -d linuxmanju/uchiwa
