@@ -71,8 +71,39 @@ Note: If you are not able to install plugins run below command to install Develo
 yum install gcc gcc-c++ ruby-devel
 
 
+Filters Configuration:
+=========================
+There are different types of filters avaialble in sensu to cut down the output results.
+
+1) Create a json file with the filter code (ex. state_change.json)
+
+{
+  "filters": {
+    "state_change_only": {
+      "negate": false,
+      "attributes": {
+        "occurrences": "eval: value == 1 || ':::action:::' == 'resolve'"
+      }
+    }
+  }
+}
 
 
+2) Add filter name in default_handler.json
+
+{
+  "handlers": {
+    "default": {
+      "command": "/opt/sensu/embedded/bin/handler-mailer.rb",
+      "type": "pipe",
+      "filters": [
+        "state_change_only"
+      ]
+    }
+  }
+}
+
+Note: Restart all sensu services . The above filter will send only one notification mail per failure instead of every 30 min. 
 
 
 
