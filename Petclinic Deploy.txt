@@ -1,0 +1,14 @@
+1) yum instal tomcat 
+
+2) yum install tomcat-webapps tomcat-admin-webapps   --> Install this for UI
+
+3) systemctl start tomcat
+
+4) systemctl stop firewalld
+
+5) cd /usr/share/tomcat/webapps
+
+6) Copy the Petclinic war file inside webapps directory
+
+7) systemctl restart tomcat
+

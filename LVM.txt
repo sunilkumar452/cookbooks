@@ -1,0 +1,79 @@
+1) df -h
+2) lvs
+3) pvs
+4) vgs
+5) lvdisplay
+6) pvdisplay
+7) vgdisplay
+8) lvextend -L+1G /dev/emperor/root
+9) resize2fs /dev/emperor/root
+
+Steps to follow if increased sized in vCommander.
+-------------------------------------------------
+
+1) fdisk /dev/sda
+2) create a new primary disk with remaining size.
+4) partprobe
+5) mkfs.ext4 /dev/sda3
+6) pvcreate /dev/sda3
+7) vgextend emperor /dev/sda3
+8) vgdisplay
+9) once the vg is extended follow the above steps to increase lv.
+
+Steps to follow if additional disk is added.
+--------------------------------------------
+1)  du -s /opt  --> To see the total size of the directory.
+2) fdisk -l    --> If additional disk is added it will show with /dev/sdb
+3) 
+
+
+Hmm, might be old instructions. Additional disks should NEVER be added to Emperor 7 emperor PV.
+
+The production process is:
+----------------------------
+As root:
+1: mkdir /db
+2: have appropriately sized second disk added to VM.
+3: pvcreate new disk
+4: vgcreate DB /dev/sdX, X is ID OS gave new drive. 
+5: lvcreate -n someDBname -L XXG /dev/mapper/DB
+   Where XXG is the needed size of the filesystem.
+6: mkfs -t ext4 /dev/mapper/DB-someDBname
+7: mount /dev/mapper/DB-someDBname
+8: edit /etc/fstab to mount /db on boot.
+ 
+
+Creating a Separate VG and lV:
+-------------------------------
+Create a disk first by entering into fdisk /dev/sdb and change the hexa code to Linux lvm for the disk.
+
+1) pvcreate /dev/sdb1
+2) vgcreate sunil /dev/sdb1
+3) lvcreate -n test -L 5G /dev/mapper/sunil
+4) mkfs -t ext4 /dev/mapper/sunil/test
+5) mkdir /DB
+6) mount /dev/sunil/test /DB
+7) df -hT
+8) vi /etc/fstab
+  /dev/mapper/sunil-test /DB   ext4  defaults    1 3
+9) reboot
+
+Extending Separate VG and lV:
+------------------------------
+1) lvextend -L+5G /dev/sunil/test     --> If we have space in VG directly increase the size with lvextend or else follow the below steps to extend vg first.
+2) resize2fs /dev/sunil/test  
+-------------------------------------
+Create a disk first by entering into fdisk /dev/sdb and change the hexa code to Linux lvm for the disk.
+
+3) pvcreate /dev/sdb2
+4) vgextend sunil /dev/sdb2
+5) lvcreate -n test2 -L 9G /dev/mapper/sunil
+6) mkfs -t ext4 /dev/sunil/test2
+7) mkdir /eng
+8) mount /dev/sunil/test2 /eng
+9) df -hT
+10) vi /etc/fstab 
+    /dev/mapper/sunil-test2 /eng   ext4     defaults       1 3
+11) reboot
+
+
