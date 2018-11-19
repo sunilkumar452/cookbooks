@@ -1,4 +1,4 @@
-1. sudo !! command
+1. sudo !! command  --> To execute last command with sudo
 
 2. python -m SimpleHTTPServer   --> It will sync data in the present folder and we can download those files by accessing IP:8000 in browser.
 

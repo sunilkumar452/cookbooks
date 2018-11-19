@@ -58,3 +58,7 @@ Zones:
 8) internal: For use on internal networks. You mostly trust the other computers on the networks to not harm your computer. Only selected incoming connections are accepted
 
 9) trusted: All network connections are accepted.
+
+10) ip a show eth0
+
+11) ifup eth0

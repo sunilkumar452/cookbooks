@@ -26,9 +26,9 @@ mkdir /home/empadmin/.chef
 
 chef-server-ctl user-create chefadmin sunil kumar mailsunilkumar452@gmail.com 'chef123' --filename /home/empadmin/.chef/chefadmin.pem
 
-chef-server-ctl org-create ability abilitynetwork --association_user chefadmin --filename /home/empadmin/.chef/abilityvalidator.pem
+chef-server-ctl org-create relevance relevancelab --association_user chefadmin --filename /home/empadmin/.chef/relevancevalidator.pem
 
-#note :- copy chefadmin.pem & abilityvalidator.pem to workstation machine to /home/empadmin/.chef/
+#note :- copy chefadmin.pem & relevancevalidator.pem to workstation machine to /home/empadmin/.chef/
 
 rpm -e manage-chef    --> To remove chef Web UI.
 

@@ -88,9 +88,9 @@
 
 43) docker diff Conainer Id      --> It will display the changes done inside the container, A - file of directory added, D - deleted and C - a file of directory changed.
 
-44) 
+44)  docker run -d --rm -p 8888:8080 tomcat:8.0   --> To up and run the tomcat container. Just check in the browser to verify on port 8888
 
-
+45)  docker run -d --rm -p 9999:80 nginx          --> To up and run the nginx container. Just check in the browser to verify on port 9999
 
  
 

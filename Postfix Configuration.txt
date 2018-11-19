@@ -6,7 +6,7 @@ E-mail Configuration for Centos7:
 
 3) systemctl enable postfix
 
-4) vi systemctl enable postfix
+4) systemctl enable postfix
 
   Below are the lines which need to be changed in /etc/postfix/main.cf file
 
@@ -22,5 +22,7 @@ E-mail Configuration for Centos7:
 6) echo "This is a test." | mail -s "test message" sunilkumar.unix7@gmail.com     --> We can send mail to any account, test message is the subject of the mail.
 
 7) tail -f /var/log/maillog     --> To check the mail logs
+
+8) echo "Message Body Here" | mailx -s "Subject Here" -a index.html sunilkumar.unix7@gmail.com   --> To send mail with attachment.
 
 Note: When the send mail with echo by default it will take login username with hostname as the sender mail id. Ex: empadmin@sample.mail.com
