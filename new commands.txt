@@ -101,3 +101,34 @@
  
 48) script -t -a 2> /tmp/time.txt /tmp/record.txt       --> To record the session in video format. Here -t for time stamp and -a for appending time stamp
 49) scriptreplay /tmp/time.txt /tmp/record.txt          --> to replay the recorded session. Ctrl +d or Exit is the command to stop the video. 
+
+Networking:
+------------
+
+50) nmap localhost    --> We can use this command to scan the open ports and mac address.
+
+51) telnet 10.164.1.1 22     --> This command will connect to the remote ip with the port you given. This confirm the port is opened.
+
+52) nslookup IP (or) hostname    --> This command will give you ip and hostname viceversa if you query with one you will get another only if you have DNS.
+
+53) netstat    --> This command will list you all the connections in the machine and you can review each.
+
+54) ifup eth0  --> This command will enable and disable the ethernet interface card.
+
+55) host IP (or) hostname    --> This command will give you name to ip or ip to name.
+
+56) ethtool ens192    -->  It is to view, setting speed and duplex of your Network Interface card.
+
+57) tcpdump -i ens192   --> To capture the traffic going through ethernet interface card.
+
+58) ip a    --> To see Ip information.
+
+59) arp -a  --> This command is use to check what are the last machines communicated with this machine.
+
+60) netstat -r  --> To see the routing table of the machine.
+
+61)  ethtool ens192 | grep Speed   --> To see the connection speed.
+
+62) ps -ef | grep ssh    --> To check the process id of the service.
+
+63) 
