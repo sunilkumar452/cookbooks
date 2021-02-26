@@ -1,3 +1,6 @@
+In Oracle Virtula Box please look into this video https://youtu.be/_LPXb-UlvkY
+
+
 1) cat /etc/sysconfig/network-scripts/ifcfg-eno16777736    --> Open this file with sudo and change the file according to below.
 
 TYPE=Ethernet
