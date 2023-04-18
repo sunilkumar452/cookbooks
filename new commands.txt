@@ -131,4 +131,4 @@ Networking:
 
 62) ps -ef | grep ssh    --> To check the process id of the service.
 
-63) 
+63) vi /var/log/secure   --> This contains who logged in when to the machine with their IP address.
